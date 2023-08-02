@@ -27,10 +27,7 @@
         - python3-pip
         - netstat
         - wget
-        - ps
         - tar
-        - ping
-        - nslookup
         - rsync
         - curl
         - python-setuptools
@@ -48,15 +45,8 @@
     git:
       repo: "https://github.com/splunk/splunk-ansible"
       clone: true
-      dest: "/tmp"
-      
-      
-
-      
-      
-  
-
-  
+      dest: "/tmp/splunk-ansible"
+        
 
   ### SSL CERTIFICATES ###
   - name: Install Let's Encrypt certbot and generate certificate
