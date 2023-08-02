@@ -1,0 +1,103 @@
+## Configure a splunk server with BOTSv3 ##
+## Tested working with Ubuntu on AWS and with Vagrant ##
+
+## Uncomment certbot when testing finised ##
+
+# https://nopresearcher.github.io/Deploying-splunk/
+# https://github.com/splunk/splunk/wiki/Advanced-Deployment
+
+- hosts: splunk
+
+  pre_tasks:
+  - name: Update cache.
+    apt: update_cache=yes
+
+  - name: Upgrade all packages.
+    apt:
+      name: "*"
+      state: latest
+  become: yes
+
+  tasks:
+  - name: Install required modules.
+    apt:
+      name:
+        - git
+        - unzip
+        - python3-pip
+        - netstat
+        - wget
+        - ps
+        - tar
+        - ping
+        - nslookup
+        - rsync
+        - curl
+        - python-setuptools
+        - virtualenv
+    become: yes
+
+  - name: Install required pip packages.
+    pip:
+      name:
+        - ansible
+        - requests
+
+  ### splunk ###
+  - name: Clone Splunk git repository.
+    git:
+      repo: "https://github.com/splunk/splunk-ansible"
+      clone: true
+      dest: "/tmp"
+      
+      
+
+      
+      
+  
+
+  
+
+  ### SSL CERTIFICATES ###
+  - name: Install Let's Encrypt certbot and generate certificate
+    block:
+        - name: Install Let's Encrypt.
+          pip:
+            state: present
+            name:
+              - certbot
+              - certbot-nginx
+
+        # Comment out when testing due to rate limiting.of 5 certs in one week for same domain.
+        #- name: Install SSL certificate with certbot
+        #  command: "sudo certbot --nginx -d {{ splunk_domain_name }} -m {{ certbot_email }} --non-interactive --agree-tos"
+        #  register: certbot
+
+  
+
+
+# ### FIREWALL ###
+# - name: Configure and enable firewall
+#   block:
+#     - name: Enable rate limiting on the SSH port to stop brute force attacks.
+#       community.general.ufw:
+#         rule: limit
+#         port: ssh
+#         proto: tcp
+#         direction: in
+#
+#     - name: Allow http/s ports into the firewall.
+#       community.general.ufw:
+#         rule: allow
+#         port: "{{ item }}"
+#         proto: tcp
+#         direction: in
+#       with_items:
+#         - 80
+#         - 443
+#   
+#     - name: Enable the firewall and explicitly set default deny.
+#       community.general.ufw:
+#         state: enabled
+#         policy: deny
+#   become: yes

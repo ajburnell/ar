@@ -1,0 +1,11 @@
+# The system user to perform installation / configuration as.
+# Splunk recommends running the playbooks locally
+# https://splunk.github.io/splunk-ansible/SETUP.html#install-splunk-ansible
+ansible_system_user: "ansible"
+
+# Fully qualified domain name.
+# Used certbot certificate request to Let's Encrypt.
+splunk_domain_name: "splunk.ablab.com.au"
+
+# The email to be provided to Certbot to get a Let's Encrypt certificate.
+certbot_email: "xenoc17299@sparkroi.com"
