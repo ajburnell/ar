@@ -143,7 +143,7 @@ resource "local_file" "ansible_inventory_splunk" {
 resource "terraform_data" "splunk_ansible" {
 
   provisioner "local-exec" {
-    command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook --vault-password-file vault_password -u splunk -i hosts.ini --private-key ${var.private_key_filename} --ssh-common-args='-o StrictHostKeyChecking=no' playbook.yml -vv"
+    command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook --vault-password-file vault_password -u ${var.ansible_username} -i hosts.ini --private-key ${var.private_key_filename} --ssh-common-args='-o StrictHostKeyChecking=no' playbook.yml -vv"
   }
 
   depends_on = [
