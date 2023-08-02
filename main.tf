@@ -100,7 +100,7 @@ resource "aws_instance" "splunk_server" {
       "sudo usermod -aG ${var.ansible_username} ${var.ansible_username}",
       "sudo mkdir -p /home/${var.ansible_username}/.ssh",
       "sudo cp /tmp/${var.public_key_filename} /home/${var.ansible_username}/.ssh/authorized_keys",
-      "sudo chown -R ${var.ansible_username}:${var.ansible_username} /home/splunk/.ssh",
+      "sudo chown -R ${var.ansible_username}:${var.ansible_username} /home/${var.ansible_username}/.ssh",
       "sudo chmod 700 /home/${var.ansible_username}/.ssh && sudo chmod 600 /home/${var.ansible_username}/.ssh/authorized_keys",
       "sudo su -c \"echo '${var.ansible_username} ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/${var.ansible_username}\""
     ]
